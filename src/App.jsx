@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { useInView } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
@@ -306,7 +307,7 @@ export default function Portfolio() {
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-bold mr-2">My Projects</h2>
 
-            <div className="flex gap-2">
+            <div className="hidden md:flex gap-2">
               {filters.map((f) => (
                 <button
                   key={f}
@@ -655,6 +656,7 @@ export default function Portfolio() {
           </motion.div>
         )}
       </AnimatePresence>
+      <SpeedInsights />
     </div>
   );
 }
