@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { useInView } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
@@ -40,8 +39,8 @@ const sampleProjects = [
     tag: "Frontend",
     desc: "An online sneaker store with product listings, search, and a cart flow — designed for a smooth shopping experience.",
     tech: ["React", "SketchFab", "TailwindCSS", "OpenAI"],
-    live: "http://localhost:5175/",
-    repo: "#",
+    live: "https://sneakers-sable-nine.vercel.app/",
+    repo: "https://github.com/hadeexo/Sneakers",
   },
 ];
 
@@ -245,12 +244,11 @@ export default function Portfolio() {
           >
             <h2 className="text-3xl font-bold">About Me</h2>
             <p className="mt-4 text-lg opacity-80">
-              I’m a web developer who loves turning ideas into interactive,
-              beautiful, and blazing-fast web experiences. My code is clean, my
-              designs are smooth, and my debugging snacks are always ready. When
-              I’m not coding, I’m probably sketching UI ideas, watching design
-              inspo videos, or hitting the basketball court pretending I’m in
-              the NBA finals.
+              I’m a web developer passionate about transforming ideas into fast,
+              interactive, and visually polished web experiences. I write clean,
+              efficient code and craft smooth, user-focused designs. Beyond
+              coding, I’m constantly exploring design inspiration, sketching UI
+              concepts, or unwinding on the basketball court.
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -656,7 +654,6 @@ export default function Portfolio() {
           </motion.div>
         )}
       </AnimatePresence>
-      <SpeedInsights />
     </div>
   );
 }
