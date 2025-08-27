@@ -574,10 +574,7 @@ export default function Portfolio() {
 
             <button
               type="submit"
-              className={clsx(
-                "mt-4 px-4 py-2 rounded-md font-medium",
-                theme === "dark" ? "bg-white/10" : "bg-slate-900 text-white"
-              )}
+              className={clsx("mt-4 px-4 py-2 rounded-md font-medium")}
             >
               Send
             </button>
@@ -612,10 +609,10 @@ export default function Portfolio() {
               )}
             >
               <button
-                className="absolute right-4 top-4 text-sm"
+                className="absolute right-2 top-3 text-sm"
                 onClick={() => setSelected(null)}
               >
-                Close
+                ⓧ
               </button>
 
               <h3 className="text-2xl font-bold">{selected.title}</h3>
