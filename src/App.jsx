@@ -30,8 +30,8 @@ const sampleProjects = [
     tag: "Frontend",
     desc: "A modern corporate website for an investment firm, featuring responsive layouts and sleek UI components.",
     tech: ["React", "TailwindCSS"],
-    live: "http://localhost:5174/",
-    repo: "#",
+    live: "https://fanrongholdings.vercel.app/",
+    repo: "https://github.com/hadeexo/Fanrong-Holdings",
   },
   {
     id: 3,
