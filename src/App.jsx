@@ -21,8 +21,8 @@ const sampleProjects = [
     tag: "Fullstack",
     desc: "An AI-powered tool that evaluates resumes and gives structured feedback on strengths and areas to improve.",
     tech: ["React", "TailwindCSS", "Typescript", "Puter.js"],
-    live: "http://localhost:5176/",
-    repo: "https://github.com/hadeexo/Resume-application",
+    live: "https://puter.com/app/resume-analyzer-19",
+    repo: "https://github.com/hadeexo/Resume-analyzer",
   },
   {
     id: 2,
