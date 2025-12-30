@@ -30,7 +30,7 @@ const sampleProjects = [
     tag: "Frontend",
     desc: "A modern corporate website for an investment firm, featuring responsive layouts and sleek UI components.",
     tech: ["React", "TailwindCSS"],
-    live: "https://fanrongholdings.vercel.app/",
+    live: "https://fanrong.vercel.app/",
     repo: "https://github.com/hadeexo/Fanrong-Holdings",
   },
   {
