@@ -169,8 +169,8 @@ export default function Portfolio() {
             </h1>
 
             <p className="mt-4 text-lg opacity-80">
-              I craft sleek, fast, and fun web experiences — and sometimes shoot
-              threes like I code: clean and on target. 🏀
+              I build modern, responsive websites for brands and growing
+              businesses focused on growth and visibility.
             </p>
 
             <div className="mt-6 flex gap-3">
@@ -191,7 +191,7 @@ export default function Portfolio() {
                   theme === "dark" ? "bg-white/10" : "bg-slate-900 text-white"
                 )}
               >
-                Let's Talk
+                Hire Me
               </a>
             </div>
 
@@ -248,7 +248,7 @@ export default function Portfolio() {
               interactive, and visually polished web experiences. I write clean,
               efficient code and craft smooth, user-focused designs. Beyond
               coding, I’m constantly exploring design inspiration, sketching UI
-              concepts, or unwinding on the basketball court.
+              concepts, or unwinding on the basketball court. 🏀
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
