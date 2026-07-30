@@ -10,6 +10,9 @@ import {
   faGithub,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
+import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ACCENT_DARK = "from-cyan-400 via-blue-400 to-violet-500";
 const ACCENT_LIGHT = "from-orange-400 via-rose-400 to-pink-400";
@@ -71,6 +74,12 @@ export default function Portfolio() {
     } catch (e) {}
   }, [theme]);
 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState(null);
 
@@ -80,8 +89,9 @@ export default function Portfolio() {
     (p) =>
       filter === "All" ||
       p.tag === filter ||
-      (filter === "Backend" && p.tag === "Backend")
+      (filter === "Backend" && p.tag === "Backend"),
   );
+  const [isSending, setIsSending] = useState(false);
 
   return (
     <div
@@ -89,7 +99,7 @@ export default function Portfolio() {
         "min-h-screen transition-colors duration-300",
         theme === "dark"
           ? "bg-[#08080b] text-slate-100"
-          : "bg-gradient-to-b from-white to-slate-50 text-slate-900"
+          : "bg-gradient-to-b from-white to-slate-50 text-slate-900",
       )}
     >
       <header className="max-w-6xl mx-auto p-6 flex items-center justify-between">
@@ -99,7 +109,7 @@ export default function Portfolio() {
               "font-extrabold text-2xl tracking-tight rounded-md px-3 py-1",
               theme === "dark"
                 ? `bg-gradient-to-r ${ACCENT_DARK} bg-clip-text text-transparent`
-                : `bg-gradient-to-r ${ACCENT_LIGHT} bg-clip-text text-transparent`
+                : `bg-gradient-to-r ${ACCENT_LIGHT} bg-clip-text text-transparent`,
             )}
           >
             ᕼλᕲƐ
@@ -127,7 +137,7 @@ export default function Portfolio() {
             onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
             className={clsx(
               "px-3 py-2 rounded-full border",
-              theme === "dark" ? "border-slate-700" : "border-slate-200"
+              theme === "dark" ? "border-slate-700" : "border-slate-200",
             )}
           >
             {theme === "dark" ? "🌙" : "☀️"}
@@ -139,7 +149,7 @@ export default function Portfolio() {
               "hidden md:inline-block rounded-md px-4 py-2 font-medium shadow-sm",
               theme === "dark"
                 ? "bg-white/5 hover:bg-white/7"
-                : "bg-slate-900 text-white hover:opacity-90"
+                : "bg-slate-900 text-white hover:opacity-90",
             )}
           >
             Hire Me
@@ -161,7 +171,7 @@ export default function Portfolio() {
                   "bg-clip-text text-transparent",
                   theme === "dark"
                     ? `bg-gradient-to-r ${ACCENT_DARK}`
-                    : `bg-gradient-to-r ${ACCENT_LIGHT}`
+                    : `bg-gradient-to-r ${ACCENT_LIGHT}`,
                 )}
               >
                 Adekunle
@@ -178,7 +188,7 @@ export default function Portfolio() {
                 href="#projects"
                 className={clsx(
                   "rounded-md px-4 py-2 font-medium ring-1 ring-offset-1",
-                  theme === "dark" ? "ring-white/6" : "ring-slate-200"
+                  theme === "dark" ? "ring-white/6" : "ring-slate-200",
                 )}
               >
                 View Work
@@ -188,7 +198,7 @@ export default function Portfolio() {
                 href="#contact"
                 className={clsx(
                   "rounded-md px-4 py-2 font-medium shadow-md",
-                  theme === "dark" ? "bg-white/10" : "bg-slate-900 text-white"
+                  theme === "dark" ? "bg-white/10" : "bg-slate-900 text-white",
                 )}
               >
                 Hire Me
@@ -217,7 +227,7 @@ export default function Portfolio() {
                   "",
                   theme === "dark"
                     ? `bg-gradient-to-bl ${ACCENT_DARK}`
-                    : `bg-gradient-to-bl ${ACCENT_LIGHT}`
+                    : `bg-gradient-to-bl ${ACCENT_LIGHT}`,
                 )}
               >
                 <img
@@ -255,7 +265,7 @@ export default function Portfolio() {
               <div
                 className={clsx(
                   "p-4 rounded-lg border",
-                  theme === "dark" ? "border-slate-800" : "border-slate-200"
+                  theme === "dark" ? "border-slate-800" : "border-slate-200",
                 )}
               >
                 <h4 className="font-semibold">Background</h4>
@@ -269,7 +279,7 @@ export default function Portfolio() {
               <div
                 className={clsx(
                   "p-4 rounded-lg border",
-                  theme === "dark" ? "border-slate-800" : "border-slate-200"
+                  theme === "dark" ? "border-slate-800" : "border-slate-200",
                 )}
               >
                 <h4 className="font-semibold">What I Value</h4>
@@ -288,7 +298,7 @@ export default function Portfolio() {
             transition={{ duration: 0.5 }}
             className={clsx(
               "p-6 rounded-xl border",
-              theme === "dark" ? "border-slate-800" : "border-slate-200"
+              theme === "dark" ? "border-slate-800" : "border-slate-200",
             )}
           >
             <h3 className="font-bold">Quick facts</h3>
@@ -316,7 +326,7 @@ export default function Portfolio() {
                       ? theme === "dark"
                         ? "bg-white/6 ring-white/8"
                         : "bg-slate-900 text-white"
-                      : "bg-transparent ring-slate-200/30 text-white/50"
+                      : "bg-transparent ring-slate-200/30 text-white/50",
                   )}
                 >
                   {f}
@@ -335,7 +345,7 @@ export default function Portfolio() {
                 whileHover={{ y: -6 }}
                 className={clsx(
                   "rounded-xl p-4 cursor-pointer border overflow-hidden group",
-                  theme === "dark" ? "border-slate-800" : "border-slate-200"
+                  theme === "dark" ? "border-slate-800" : "border-slate-200",
                 )}
                 onClick={() => setSelected(p)}
               >
@@ -393,7 +403,7 @@ export default function Portfolio() {
                       "flex flex-col items-center transition-all duration-300",
                       theme === "dark"
                         ? "hover:drop-shadow-[0_0_12px_rgba(56,189,248,0.6)]"
-                        : "hover:drop-shadow-[0_0_12px_rgba(244,63,94,0.6)]"
+                        : "hover:drop-shadow-[0_0_12px_rgba(244,63,94,0.6)]",
                     )}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{
@@ -537,50 +547,91 @@ export default function Portfolio() {
           <form
             className={clsx(
               "p-6 rounded-xl border",
-              theme === "dark" ? "border-slate-800" : "border-slate-200"
+              theme === "dark" ? "border-slate-800" : "border-slate-200",
             )}
             onSubmit={(e) => {
               e.preventDefault();
-              alert("Thanks! I will get back to you.");
+              setIsSending(true);
+
+              emailjs
+                .send(
+                  "service_5i1mjq6",
+                  "template_f1x6eyj",
+                  {
+                    name: form.name,
+                    email: form.email,
+                    message: form.message,
+                  },
+                  "TLnY0BNEn8I6aNrri",
+                )
+                .then(() => {
+                  toast.success("Message sent successfully!");
+                  setIsSending(false);
+                  setForm({ name: "", email: "", message: "" });
+                })
+                .catch((error) => {
+                  console.error(error);
+                  toast.error("Something went wrong.");
+                  setIsSending(false);
+                });
             }}
           >
             <label className="block text-sm font-medium">Name</label>
             <input
               className={clsx(
                 "mt-2 w-full rounded-md p-3 ring-1 focus:outline-none",
-                theme === "dark" ? "ring-slate-800" : "ring-slate-200"
+                theme === "dark" ? "ring-slate-800" : "ring-slate-200",
               )}
-              placeholder="Your name"
+              required
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Your Name"
             />
 
             <label className="block text-sm font-medium mt-4">Email</label>
             <input
               className={clsx(
                 "mt-2 w-full rounded-md p-3 ring-1 focus:outline-none",
-                theme === "dark" ? "ring-slate-800" : "ring-slate-200"
+                theme === "dark" ? "ring-slate-800" : "ring-slate-200",
               )}
-              placeholder="you@example.com"
+              required
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              placeholder="Your Email"
             />
 
             <label className="block text-sm font-medium mt-4">Message</label>
             <textarea
               className={clsx(
                 "mt-2 w-full rounded-md p-3 ring-1 focus:outline-none",
-                theme === "dark" ? "ring-slate-800" : "ring-slate-200"
+                theme === "dark" ? "ring-slate-800" : "ring-slate-200",
               )}
+              required
               rows={5}
               placeholder="Tell me about your project..."
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
             />
 
             <button
               type="submit"
+              disabled={isSending}
               className={clsx("mt-4 px-4 py-2 rounded-md font-medium")}
             >
-              Send
+              {isSending ? "Sending..." : "Send"}
             </button>
           </form>
         </section>
-
+        <ToastContainer
+          theme={theme === "dark" ? "dark" : "light"}
+          position="bottom-right"
+          autoClose={2500}
+          hideProgressBar={true}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+        />
         <footer className="mt-20 text-sm opacity-70 text-center">
           © {new Date().getFullYear()} Adekunle
         </footer>
@@ -605,7 +656,7 @@ export default function Portfolio() {
               exit={{ y: 20, opacity: 0 }}
               className={clsx(
                 "relative max-w-2xl w-full rounded-xl p-6 z-10",
-                theme === "dark" ? "bg-[#0b0b0d]" : "bg-white"
+                theme === "dark" ? "bg-[#0b0b0d]" : "bg-white",
               )}
             >
               <button
