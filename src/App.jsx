@@ -140,7 +140,7 @@ export default function Portfolio() {
               theme === "dark" ? "border-slate-700" : "border-slate-200",
             )}
           >
-            {theme === "dark" ? "🌙" : "☀️"}
+            {theme === "dark" ? "D" : "S"}
           </button>
 
           <a
@@ -258,7 +258,7 @@ export default function Portfolio() {
               interactive, and visually polished web experiences. I write clean,
               efficient code and craft smooth, user-focused designs. Beyond
               coding, I’m constantly exploring design inspiration, sketching UI
-              concepts, or unwinding on the basketball court. 🏀
+              concepts, or unwinding on the basketball court.
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -303,9 +303,9 @@ export default function Portfolio() {
           >
             <h3 className="font-bold">Quick facts</h3>
             <ul className="mt-4 text-sm space-y-2 opacity-90">
-              <li>📍 Lagos, Nigeria</li>
-              <li>🎓 Learning Computer Engineering</li>
-              <li>💼 Open to remote & on-site roles</li>
+              <li> Lagos, Nigeria</li>
+              <li> Learning Computer Engineering</li>
+              <li> Open to remote & on-site roles</li>
             </ul>
           </motion.aside>
         </section>
@@ -489,7 +489,7 @@ export default function Portfolio() {
           className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
         >
           <div>
-            <h2 className="text-3xl font-bold">Let’s Work Together 🚀</h2>
+            <h2 className="text-3xl font-bold">Let’s Work Together </h2>
             <p className="mt-4 text-lg opacity-80">
               If you like my work, let’s talk. I’m open to full-time roles,
               freelance projects, and collaborations.

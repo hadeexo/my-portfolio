@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hade-beta.vercel.app/sitemap.xml
