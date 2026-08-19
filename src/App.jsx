@@ -1,15 +1,27 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import clsx from "clsx";
-import { useInView } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { MdOutlineWbSunny } from "react-icons/md";
+import { IoMoonOutline } from "react-icons/io5";
+import {
+  SiJavascript,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+  SiNextdotjs,
+  SiWordpress,
+  SiMongodb,
+  SiNodedotjs,
+} from "react-icons/si";
+import logo from "../public/images/logocl.png";
 import {
   faInstagram,
   faXTwitter,
   faGithub,
-  faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -48,15 +60,43 @@ const sampleProjects = [
 ];
 
 const skills = [
-  { name: "JavaScript", level: 85 },
-  { name: "React", level: 95 },
-  { name: "Tailwind CSS", level: 98 },
-  { name: "Node.js", level: 77 },
-  { name: "Typescript", level: 85 },
-  { name: "NextJs", level: 95 },
-  { name: "Wordpress", level: 91 },
-  { name: "Mongo DB", level: 77 },
+  { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
+  { name: "React", Icon: SiReact, color: "#61DAFB" },
+  { name: "Tailwind CSS", Icon: SiTailwindcss, color: "#38BDF8" },
+  { name: "Node.js", Icon: SiNodedotjs, color: "#5FA04E" },
+  { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
+  { name: "Next.js", Icon: SiNextdotjs, color: "#ffffff" },
+  { name: "WordPress", Icon: SiWordpress, color: "#21759B" },
+  { name: "MongoDB", Icon: SiMongodb, color: "#47A248" },
 ];
+
+// Stagger the list; alternate direction handled per-item below.
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.18,
+    },
+  },
+};
+
+const fromTop = {
+  hidden: { y: -60, opacity: 0 },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const fromBottom = {
+  hidden: { y: 60, opacity: 0 },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 export default function Portfolio() {
   const [theme, setTheme] = useState(() => {
@@ -82,6 +122,10 @@ export default function Portfolio() {
 
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState(null);
+  const [isSending, setIsSending] = useState(false);
+
+  const skillsRef = useRef(null);
+  const skillsInView = useInView(skillsRef, { once: false, amount: 0.5 });
 
   const filters = ["All", "Fullstack", "Frontend", "Backend"];
 
@@ -91,7 +135,6 @@ export default function Portfolio() {
       p.tag === filter ||
       (filter === "Backend" && p.tag === "Backend"),
   );
-  const [isSending, setIsSending] = useState(false);
 
   return (
     <div
@@ -103,19 +146,19 @@ export default function Portfolio() {
       )}
     >
       <header className="max-w-6xl mx-auto p-6 flex items-center justify-between">
+        <div
+          className="
+               px-3"
+        >
+          {logo && <img src={logo} alt="Logo" className="w-18 h-18" />}
+        </div>
         <div className="flex items-center gap-3">
-          <div
+          <nav
             className={clsx(
-              "font-extrabold text-2xl tracking-tight rounded-md px-3 py-1",
-              theme === "dark"
-                ? `bg-gradient-to-r ${ACCENT_DARK} bg-clip-text text-transparent`
-                : `bg-gradient-to-r ${ACCENT_LIGHT} bg-clip-text text-transparent`,
+              "hidden md:flex gap-6 text-sm opacity-80 items-center justify-center shadow-lg rounded-full px-10 py-2",
+              theme === "dark" ? "shadow-cyan-950" : "shadow-orange-100",
             )}
           >
-            ᕼλᕲƐ
-          </div>
-
-          <nav className="hidden md:flex gap-6 text-sm opacity-80">
             <a href="#about" className="hover:underline">
               About
             </a>
@@ -135,15 +178,16 @@ export default function Portfolio() {
           <button
             aria-label="Toggle theme"
             onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-            className={clsx(
-              "px-3 py-2 rounded-full border",
-              theme === "dark" ? "border-slate-700" : "border-slate-200",
-            )}
+            className="bg-none border-none transition hover:scale-110"
           >
-            {theme === "dark" ? "D" : "S"}
+            {theme === "dark" ? (
+              <MdOutlineWbSunny className="w-7 h-7" />
+            ) : (
+              <IoMoonOutline className="w-7 h-7" />
+            )}
           </button>
 
-          <a
+          {/* <a
             href="#contact"
             className={clsx(
               "hidden md:inline-block rounded-md px-4 py-2 font-medium shadow-sm",
@@ -153,16 +197,17 @@ export default function Portfolio() {
             )}
           >
             Hire Me
-          </a>
+          </a> */}
         </div>
       </header>
+
       <main className="max-w-6xl mx-auto px-6 pb-20">
         {/* HERO */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-[60vh]">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 3.5 }}
+            transition={{ duration: 0.5 }}
           >
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
               Hey, I'm{" "}
@@ -174,7 +219,7 @@ export default function Portfolio() {
                     : `bg-gradient-to-r ${ACCENT_LIGHT}`,
                 )}
               >
-                Adekunle
+                Oloruntoba
               </span>
             </h1>
 
@@ -184,25 +229,35 @@ export default function Portfolio() {
             </p>
 
             <div className="mt-6 flex gap-3">
-              <a
-                href="#projects"
+              <button
+                onClick={() => {
+                  const projectsSection = document.getElementById("projects");
+                  if (projectsSection) {
+                    projectsSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className={clsx(
                   "rounded-md px-4 py-2 font-medium ring-1 ring-offset-1",
                   theme === "dark" ? "ring-white/6" : "ring-slate-200",
                 )}
               >
                 View Work
-              </a>
+              </button>
 
-              <a
-                href="#contact"
+              <button
+                onClick={() => {
+                  const contactSection = document.getElementById("contact");
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className={clsx(
                   "rounded-md px-4 py-2 font-medium shadow-md",
                   theme === "dark" ? "bg-white/10" : "bg-slate-900 text-white",
                 )}
               >
                 Hire Me
-              </a>
+              </button>
             </div>
 
             <div className="mt-8 flex items-center gap-4 text-sm opacity-80">
@@ -254,10 +309,10 @@ export default function Portfolio() {
           >
             <h2 className="text-3xl font-bold">About Me</h2>
             <p className="mt-4 text-lg opacity-80">
-              I’m a web developer passionate about transforming ideas into fast,
+              I'm a web developer passionate about transforming ideas into fast,
               interactive, and visually polished web experiences. I write clean,
               efficient code and craft smooth, user-focused designs. Beyond
-              coding, I’m constantly exploring design inspiration, sketching UI
+              coding, I'm constantly exploring design inspiration, sketching UI
               concepts, or unwinding on the basketball court.
             </p>
 
@@ -303,9 +358,9 @@ export default function Portfolio() {
           >
             <h3 className="font-bold">Quick facts</h3>
             <ul className="mt-4 text-sm space-y-2 opacity-90">
-              <li> Lagos, Nigeria</li>
-              <li> Learning Computer Engineering</li>
-              <li> Open to remote & on-site roles</li>
+              <li>Lagos, Nigeria</li>
+              <li>Learning Computer Engineering</li>
+              <li>Open to remote & on-site roles</li>
             </ul>
           </motion.aside>
         </section>
@@ -349,10 +404,9 @@ export default function Portfolio() {
                 )}
                 onClick={() => setSelected(p)}
               >
-                {/* Project Screenshot */}
                 <div className="relative h-40 rounded-lg overflow-hidden">
                   <img
-                    src={`/images/${p.id}.png`} // <- save images like project-1.png, project-2.png etc.
+                    src={`/images/${p.id}.png`}
                     alt={p.title}
                     className="w-full h-full object-cover transform group-hover:scale-105 transition duration-500"
                   />
@@ -361,13 +415,11 @@ export default function Portfolio() {
                   </div>
                 </div>
 
-                {/* Project Info */}
                 <div className="mt-3">
                   <h4 className="font-semibold">{p.title}</h4>
                   <p className="text-sm opacity-80 mt-1">{p.desc}</p>
                 </div>
 
-                {/* Tech Tags */}
                 <div className="mt-3 flex flex-wrap gap-2">
                   {p.tech.map((t) => (
                     <span
@@ -387,100 +439,39 @@ export default function Portfolio() {
         <section id="skills" className="mt-20">
           <h2 className="text-3xl font-bold">Skills</h2>
 
-          {(() => {
-            const ref = useRef(null);
-            const isInView = useInView(ref, { once: true, amount: 0.5 });
-
-            return (
-              <div
-                ref={ref}
-                className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8"
+          <motion.div
+            ref={skillsRef}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8"
+            variants={container}
+            initial="hidden"
+            animate={skillsInView ? "show" : "hidden"}
+          >
+            {skills.map((item, i) => (
+              <motion.div
+                key={item.name}
+                variants={i % 2 === 0 ? fromTop : fromBottom}
+                className={clsx(
+                  "flex flex-col items-center justify-center gap-4 rounded-2xl border py-8 px-4",
+                  theme === "dark"
+                    ? "bg-[#141416] border-white/5"
+                    : "bg-[#d3d3d37a] border-slate-200",
+                )}
               >
-                {skills.map((s) => (
-                  <motion.div
-                    key={s.name}
-                    className={clsx(
-                      "flex flex-col items-center transition-all duration-300",
-                      theme === "dark"
-                        ? "hover:drop-shadow-[0_0_12px_rgba(56,189,248,0.6)]"
-                        : "hover:drop-shadow-[0_0_12px_rgba(244,63,94,0.6)]",
-                    )}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{
-                      opacity: isInView ? 1 : 0,
-                      scale: isInView ? 1 : 0.9,
-                    }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <div className="relative w-28 h-28">
-                      {/* Background circle */}
-                      <svg className="w-full h-full transform -rotate-90">
-                        <circle
-                          cx="56"
-                          cy="56"
-                          r="50"
-                          stroke={theme === "dark" ? "#1e293b" : "#e2e8f0"}
-                          strokeWidth="5"
-                          fill="transparent"
-                        />
-                        {/* Animated progress circle */}
-                        <motion.circle
-                          cx="56"
-                          cy="56"
-                          r="50"
-                          strokeWidth="5"
-                          strokeLinecap="round"
-                          fill="transparent"
-                          stroke={
-                            theme === "dark"
-                              ? "url(#gradDark)"
-                              : "url(#gradLight)"
-                          }
-                          strokeDasharray={2 * Math.PI * 50}
-                          strokeDashoffset={
-                            isInView
-                              ? 2 * Math.PI * 50 * (1 - s.level / 100)
-                              : 2 * Math.PI * 50
-                          }
-                          transition={{ duration: 3.8, ease: "easeOut" }}
-                        />
-                        {/* Gradients */}
-                        <defs>
-                          <linearGradient
-                            id="gradDark"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                          >
-                            <stop offset="0%" stopColor="#22d3ee" />
-                            <stop offset="50%" stopColor="#3b82f6" />
-                            <stop offset="100%" stopColor="#8b5cf6" />
-                          </linearGradient>
-                          <linearGradient
-                            id="gradLight"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                          >
-                            <stop offset="0%" stopColor="#fb923c" />
-                            <stop offset="50%" stopColor="#f43f5e" />
-                            <stop offset="100%" stopColor="#ec4899" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                      {/* Text inside circle */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-lg font-bold">{s.level}%</span>
-                        <span className="text-xs opacity-70">{s.name}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            );
-          })()}
+                <item.Icon
+                  className="w-10 h-10 md:w-12 md:h-12 "
+                  style={{ color: item.color }}
+                />
+                <span
+                  className={clsx(
+                    "text-sm",
+                    theme === "dark" ? "text-slate-400" : "text-slate-500",
+                  )}
+                >
+                  {item.name}
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
         </section>
 
         {/* CONTACT */}
@@ -489,9 +480,9 @@ export default function Portfolio() {
           className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
         >
           <div>
-            <h2 className="text-3xl font-bold">Let’s Work Together </h2>
+            <h2 className="text-3xl font-bold">Let's Work Together </h2>
             <p className="mt-4 text-lg opacity-80">
-              If you like my work, let’s talk. I’m open to full-time roles,
+              If you like my work, let's talk. I'm open to full-time roles,
               freelance projects, and collaborations.
             </p>
 
@@ -623,6 +614,7 @@ export default function Portfolio() {
             </button>
           </form>
         </section>
+
         <ToastContainer
           theme={theme === "dark" ? "dark" : "light"}
           position="bottom-right"
@@ -632,10 +624,12 @@ export default function Portfolio() {
           closeOnClick
           pauseOnHover
         />
+
         <footer className="mt-20 text-sm opacity-70 text-center">
           © {new Date().getFullYear()} Adekunle
         </footer>
       </main>
+
       {/* PROJECT MODAL */}
       <AnimatePresence>
         {selected && (

@@ -18,17 +18,21 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #2a31b6;
+
 }
 
-/* body {
-  display: flex;
-  place-items: center;
-} */
+nav a{
+  font-weight: 800;
+  font-size: 1rem;
+  text-decoration: inherit;
+    transition: border-color 0.25s;
+}
+
+nav a:hover {
+color: #6b6ea583;
+}
+
 
 h1 {
   font-size: 3.2em;
@@ -42,8 +46,6 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
-  color: #ffffff;
   cursor: pointer;
   transition: border-color 0.25s;
 }
